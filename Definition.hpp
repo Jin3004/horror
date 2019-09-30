@@ -10,17 +10,20 @@ extern constexpr int WINDOW_Y = 720;
 
 class Game {
 public:
-	Game() {};
-	virtual void Calculation() {};
-	virtual void Draw()const {};
+	Game() = default;
+	Font debug{ 20 };
+	virtual void Initialize(bool& isloading) {};
+	virtual std::unique_ptr<Game> Calculation(bool& isloading) { return nullptr; };
+	virtual void Draw(bool isloading)const {};
 	virtual void End() {};
 };
 //Declare the base class.
 
 class Start :public Game {
 public:
-	Start();
-	void Calculation()override;
-	void Draw()const override;
+	Start() = default;
+	void Initialize(bool& isloading)override;
+	std::unique_ptr<Game> Calculation(bool& isloading)override;
+	void Draw(bool isloading)const override;
 	void End()override;
 };
