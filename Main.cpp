@@ -2,19 +2,18 @@
 
 void Main() {//Entry point
 
-	bool state = true, isloading = false;
-	Rect black_screen(0, 0, WINDOW_X, WINDOW_Y);
+	Data data = { true, false, Split(Unicode::FromWString(GetCommandLineW()), ' ')[1] };
 	std::unique_ptr<Game> game_ptr = std::make_unique<Start>();
 
 	std::thread calc([&]() {
-		game_ptr->Initialize(isloading);
+		game_ptr->Initialize(data);
 
-		while (state) {
-			auto ischanged = game_ptr->Calculation(isloading);
+		while (data.state) {
+			auto ischanged = game_ptr->Calculation(data);
 			if (ischanged != nullptr) {
 				game_ptr->End();
 				game_ptr = std::move(ischanged);
-				game_ptr->Initialize(isloading);
+				game_ptr->Initialize(data);
 			}
 		}
 		});
@@ -22,10 +21,11 @@ void Main() {//Entry point
 	std::thread draw([&]() {
 
 		Font debug{ 20 };
+		Rect black_screen(0, 0, WINDOW_X, WINDOW_Y);
 
-		while (state = System::Update()) {
-			game_ptr->Draw(isloading);
-			if (isloading) {
+		while (data.state = System::Update()) {
+			game_ptr->Draw(data);
+			if (data.isloading) {
 				black_screen.draw(Palette::Black);
 				debug(U"Now Loading...").draw(0, 0);
 			}
@@ -36,33 +36,35 @@ void Main() {//Entry point
 	calc.join();
 }
 
-void Start::Initialize(bool& isloading) {
-	isloading = true;
-	Window::SetTitle(U"HORROR!");
+void Start::Initialize(Data& data) {
+	data.isloading = true;
+	Window::SetTitle(U"THE HORROR!");
 	Window::Resize(WINDOW_X, WINDOW_Y);
-	std::this_thread::sleep_for(3s);
-	isloading = false;
+	Console.open();
+	std::cout << data.title << std::endl;
+	data.isloading = false;
 }
 
-[[nodiscard]] std::unique_ptr<Game> Start::Calculation(bool& isloading) {
+[[nodiscard]] std::unique_ptr<Game> Start::Calculation(Data& data) {
 	if (!KeySpace.down())return nullptr;
 	else return std::make_unique<Menu>();
 }
 
-void Start::Draw(bool isloading) const {
-	title_.draw();
+void Start::Draw(Data data) const {
+	debug_(U"Welcome to " + data.title).draw();
 }
 
 void Start::End() {
 
 }
 
-void Menu::Initialize(bool& isloading) {
+void Menu::Initialize(Data& data) {
+
 }
 
-[[nodiscard]] std::unique_ptr<Game> Menu::Calculation(bool& isloading) {
+[[nodiscard]] std::unique_ptr<Game> Menu::Calculation(Data& data) {
 	return nullptr;
 }
 
-void Menu::Draw(bool isloading)const {
+void Menu::Draw(Data data)const {
 }
