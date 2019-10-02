@@ -1,4 +1,8 @@
-﻿#include "Definition.hpp"
+﻿///<summary>
+///Copyright 2019 Jin(@CPP_IS_GOD)
+///</summary>
+
+#include "Definition.hpp"
 
 void Main() {//Entry point
 
