@@ -42,10 +42,12 @@ void Main() {//Entry point
 
 void Start::Initialize(Data& data) {
 	data.isloading = true;
+	
 	Window::SetTitle(U"THE HORROR!");
 	Window::Resize(WINDOW_X, WINDOW_Y);
 	Console.open();
-	std::cout << data.title << std::endl;
+	fs::current_path(resources_path);
+	
 	data.isloading = false;
 }
 
@@ -63,7 +65,11 @@ void Start::End() {
 }
 
 void Menu::Initialize(Data& data) {
+	data.isloading = true;
 
+	for(const fs::directory_entry&x:fs::directory_iterator(resources_path + fs::path("/")))
+
+	data.isloading = false;
 }
 
 [[nodiscard]] std::unique_ptr<Game> Menu::Calculation(Data& data) {
@@ -71,4 +77,5 @@ void Menu::Initialize(Data& data) {
 }
 
 void Menu::Draw(Data data)const {
+
 }

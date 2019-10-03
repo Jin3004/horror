@@ -5,15 +5,19 @@
 #pragma once
 #include <Siv3D.hpp>
 #include <Windows.h>
-#include <codecvt>
 #include <memory>
 #include <thread>
 #include <vector>
 #include <fstream>
-#include <sstream>
 #include <string>
+#include <filesystem>
+
+namespace fs = std::filesystem;
+
 //Include dependent files.
 
+extern const fs::path resources_path = fs::absolute("resources");
+extern constexpr unsigned int MAX_SIZE = 2048;
 extern constexpr int WINDOW_X = 1280;
 extern constexpr int WINDOW_Y = 720;
 //Declare constant variables.
