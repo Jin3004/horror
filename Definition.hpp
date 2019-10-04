@@ -11,12 +11,13 @@
 #include <fstream>
 #include <string>
 #include <filesystem>
+#include <mutex>
 
 namespace fs = std::filesystem;
 
 //Include dependent files.
 
-extern const fs::path resources_path = fs::absolute("resources");
+extern const fs::path resources_path = fs::absolute("resource");
 extern constexpr unsigned int MAX_SIZE = 2048;
 extern constexpr int WINDOW_X = 1280;
 extern constexpr int WINDOW_Y = 720;
@@ -46,12 +47,19 @@ struct Data {//the set of data used for inside.
 	String title;//Game title from the command line argument.
 };
 
+//struct Menu_Data {
+//	bool istexture;
+//	int x, y;
+//	String str;
+//	explicit Menu_Data(bool i, int x, int y, String s) :istexture(i), x(x), y(y), str(s) {}
+//};
+
 class Game {
 public:
+	Font default_font{ 20, U"fonts/NotoSansCJKjp-Medium.otf" };
+	Font scary_font{ 20,U"fonts/g_comichorrorR_freeR.ttf" };
+
 	Game() = default;
-
-	Font debug_{ 40, U"resource/fonts/g_comichorrorR_freeR.ttf" };
-
 	virtual void Initialize(Data& data) {};
 	[[nodiscard]] virtual std::unique_ptr<Game> Calculation(Data& data) { return nullptr; };
 	virtual void Draw(Data data)const {};
@@ -74,12 +82,20 @@ public:
 
 	std::vector<String> labels;
 	std::vector<String> buttons;
-	std::vector<String> texture_name;
+	std::vector<String> texture_names;
 
-	Menu() = default;
+	Menu(std::string directory);
 	void Initialize(Data& data)override;
-	Menu(std::initializer_list<String> l, std::initializer_list<String> b) :labels(l), buttons(b) {};
+	//Menu(std::initializer_list<String> l, std::initializer_list<String> b) :labels(l), buttons(b) {};
 	[[nodiscard]] std::unique_ptr<Game> Calculation(Data& data)override;
 	void Draw(Data data)const override;
 	//void End()override;
+};
+
+class Terminate : public Game {
+public:
+	String str;
+	Terminate(String s) :str(s) {}
+	[[nodiscard]] std::unique_ptr<Game> Calculation(Data& data)override;
+	void Draw(Data data)const override;
 };
