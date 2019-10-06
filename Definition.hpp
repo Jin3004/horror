@@ -47,13 +47,6 @@ struct Data {//the set of data used for inside.
 	String title;//Game title from the command line argument.
 };
 
-//struct Menu_Data {
-//	bool istexture;
-//	int x, y;
-//	String str;
-//	explicit Menu_Data(bool i, int x, int y, String s) :istexture(i), x(x), y(y), str(s) {}
-//};
-
 class Game {
 public:
 	Font default_font{ 20, U"fonts/NotoSansCJKjp-Medium.otf" };
@@ -90,12 +83,4 @@ public:
 	[[nodiscard]] std::unique_ptr<Game> Calculation(Data& data)override;
 	void Draw(Data data)const override;
 	//void End()override;
-};
-
-class Terminate : public Game {
-public:
-	String str;
-	Terminate(String s) :str(s) {}
-	[[nodiscard]] std::unique_ptr<Game> Calculation(Data& data)override;
-	void Draw(Data data)const override;
 };
