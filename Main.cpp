@@ -8,7 +8,7 @@ void Main() {//Entry point
 
 	fs::current_path(resources_path);
 	
-	Data data = { true, false, Split(Unicode::FromWString(GetCommandLineW()), ' ')[1] };
+	Data data = { true, false, U"Asaoni" };
 	std::unique_ptr<Game> game_ptr = std::make_unique<Start>();
 	
 	std::thread calc([&]() {
@@ -80,7 +80,8 @@ void Menu::Initialize(Data& data) {
 
 [[nodiscard]] std::unique_ptr<Game>	Menu::Calculation(Data& data) {
 	if (!KeySpace.down())return nullptr;
-	else Terminate(0);
+	//else Terminate(0);
+	return nullptr;
 }
 
 void Menu::Draw(Data data)const {

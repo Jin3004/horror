@@ -4,7 +4,6 @@
 
 #pragma once
 #include <Siv3D.hpp>
-#include <Windows.h>
 #include <memory>
 #include <thread>
 #include <vector>
@@ -17,7 +16,7 @@ namespace fs = std::filesystem;
 
 //Include dependent files.
 
-extern const fs::path resources_path = fs::absolute("resource");
+extern const fs::path resource_path = fs::absolute("resources");
 extern constexpr unsigned int MAX_SIZE = 2048;
 extern constexpr int WINDOW_X = 1280;
 extern constexpr int WINDOW_Y = 720;
