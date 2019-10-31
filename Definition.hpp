@@ -13,7 +13,6 @@
 #include <mutex>
 
 namespace fs = std::filesystem;
-
 //Include dependent files.
 
 extern const fs::path resource_path = fs::absolute("resources");
